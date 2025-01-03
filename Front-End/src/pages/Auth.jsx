@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import logo from "../../public/assets/img/logo.png";
 import { useDispatch } from 'react-redux';
-import { signUP } from '../actions/AuthAction';
+import { signUp } from "../actions/AuthAction";
 
 function Auth() {
   const [isSignUp, setisSignUp] = useState(true);
@@ -51,7 +51,7 @@ function SignUP({ setisSignUp, handleChange, isConfirm, data,setisConfirm }) {
      
       setisConfirm(false);
     } else {
-      dispatch(signUP(data));
+      dispatch(signUp(data));
       setisConfirm(true);
       // Proceed with form submission logic here
       console.log("Form submitted successfully", data);

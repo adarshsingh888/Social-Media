@@ -11,13 +11,13 @@ export const logIn=(formData)=> async(dispatch)=>{
   }
 }
 
-export const singUp=(fromData)=> async (dispatch)=>{
-  dispatch({type:"AUTH_START"})
+export const signUp = (formData) => async (dispatch) => {  {/* Fix the typo here */}
+  dispatch({ type: "AUTH_START" });
   try {
-    const {data}=await AuthApi.signUP(fromData);
-    dispatch({type:"AUTH_SUCCESS"})
+    const { data } = await AuthApi.signUP(formData);  {/* Fix the typo here */}
+    dispatch({ type: "AUTH_SUCCESS" });
   } catch (error) {
-    console.log(error)
-    dispatch({type:"AUTH_FAIL"});
+    console.log(error);
+    dispatch({ type: "AUTH_FAIL" });
   }
-}
+};
