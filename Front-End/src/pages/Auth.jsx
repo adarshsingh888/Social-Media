@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import logo from "../../public/assets/img/logo.png";
-import { useDispatch } from 'react-redux';
-import { signUp } from "../actions/AuthAction";
+import { useDispatch,useSelector } from 'react-redux';
+import { signUp,logIn } from "../actions/AuthAction";
 
 function Auth() {
   const [isSignUp, setisSignUp] = useState(true);
@@ -34,7 +34,7 @@ function Auth() {
       </div>
       <div>
         {isSignUp ? (
-          <LogIN setisSignUp={setisSignUp} handleChange={handleChange} />
+          <LogIN setisSignUp={setisSignUp} handleChange={handleChange} data={data} />
         ) : (
           <SignUP setisSignUp={setisSignUp} handleChange={handleChange}isConfirm={isConfirm} data={data} setisConfirm={setisConfirm}/>
         )}
@@ -127,7 +127,17 @@ function SignUP({ setisSignUp, handleChange, isConfirm, data,setisConfirm }) {
   );
 }
 
-function LogIN({ setisSignUp, handleChange }) {
+function LogIN({ setisSignUp, handleChange,data }) {
+  
+  const dispatch=useDispatch();
+ const handleSubmit=(e)=>{
+  e.preventDefault();
+  console.log(data)
+  dispatch(logIn(data));
+  console.log("clicked")
+ }
+ const loading=useSelector((state)=> state.AuthReducer.loading)
+ console.log(loading)
   return (
     <div className="min-h-screen flex items-center justify-center max-w-md">
       <form>
@@ -153,9 +163,16 @@ function LogIN({ setisSignUp, handleChange }) {
         </span>
         <button
           type="submit"
-          className="w-full my-4 bg-orange-500 text-white font-bold py-2 px-4 rounded-md hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-orange-400 focus:ring-offset-2"
+          onClick={handleSubmit}
+          disabled={loading}
+          className={`w-full my-4 text-white font-bold py-2 px-4 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 ${
+            loading 
+              ? "bg-slate-300 hover:bg-slate-600 focus:ring-slate-400"
+              : "bg-orange-500 hover:bg-orange-600 focus:ring-orange-400"
+          }`}
+          
         >
-          Log In
+          {loading ? "Loading...":"LogIn"}
         </button>
       </form>
     </div>

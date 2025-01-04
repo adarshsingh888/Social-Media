@@ -1,6 +1,7 @@
 import express from 'express';
 import mongoose from 'mongoose';
-import dotenv from 'dotenv'
+import dotenv from 'dotenv';
+import cors from'cors';
 import AuthRoute from './Routes/AuthRoute.js';
 import UserRoute from './Routes/UserRoute.js'
 import PostRoute from'./Routes/PostRoute.js';
@@ -15,6 +16,7 @@ const app = express();
 //middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cors());
 
 
 
