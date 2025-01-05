@@ -1,5 +1,5 @@
 const authReducer=(
-    state={authData:null,loading:true,error:false},
+    state={authData:null,loading:false,error:false},
     action)=>{
         switch(action.type){
             case "AUTH_START":

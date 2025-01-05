@@ -2,11 +2,20 @@ import React, { useRef, useState } from 'react';
 import profileImg from '../../../public/assets/img/profileImg.jpg';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faImage, faVideo, faMapMarkerAlt, faCalendarAlt, faTimes } from '@fortawesome/free-solid-svg-icons';
-
+import { useSelector ,useDispatch } from 'react-redux';
+import { uploadImage, uploadPost} from '../../actions/uploadAction';
 function PostShare() {
   const [image, setImage] = useState(null);
-  const imgRef = useRef();
+  const [desc,setDesc]=useState(null)
+  const dispatch=useDispatch();
+  console.log('Redux state:', useSelector((state) => state));
 
+  const {user}=useSelector((state)=>state.AuthReducer.authData);
+  const {loading}=useSelector((state)=> state.postReducer)
+  console.log(loading)
+ // console.log("Form the post Share",user)
+  const imgRef = useRef();
+  //console.log(desc)
   const imageClicked = () => {
     document.getElementById('fileInput').click();
   };
@@ -17,10 +26,37 @@ function PostShare() {
 
   const imgChange = (e) => {
     const img = e.target.files[0];
-    console.log(img);
-    setImage(URL.createObjectURL(img));
-    console.log(image);
+    setImage(img);
   };
+  const handleUpload = async (e) => {
+    e.preventDefault();
+
+    const newPost = {
+        userId: user._id,
+        desc: desc,
+    };
+
+    if (image) {
+        const data = new FormData();
+        const fileName = Date.now() + image.name;
+        data.append("fileName", fileName);
+        data.append("file", image);
+        newPost.image = fileName;
+
+        try {
+            await dispatch(uploadImage(data)); // Wait for image upload to complete
+        } catch (error) {
+            console.log("Image upload failed:", error);
+            return; // Stop further execution
+        }
+    }
+
+    try {
+        dispatch(uploadPost(newPost)); // Proceed with post upload
+    } catch (error) {
+        console.log("Post upload failed:", error);
+    }
+};
 
   return (
     <div className='flex flex-col bg-white m-4 rounded-lg shadow-lg'>
@@ -28,7 +64,10 @@ function PostShare() {
         <img src={profileImg} alt="" className='w-10 h-10 rounded-full mr-4' />
         <input
           type="text"
+          name='des'
+          onChange={(e)=> setDesc(e.target.value)}
           placeholder="What's happening?"
+          required
           className='px-4 py-2 rounded-full flex-grow border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500'
         />
       </div>
@@ -45,14 +84,24 @@ function PostShare() {
         <button className='flex items-center m-1 text-yellow-500 hover:text-yellow-700'>
           <FontAwesomeIcon icon={faCalendarAlt} className='text-yellow-500 mr-2' /> Schedule
         </button>
-        <button className='border border-black p-2 rounded-lg hover:bg-green-500 hover:text-white transition duration-300'>Share</button>
+        <button 
+       className={
+        loading
+          ? 'border border-black p-2 rounded-lg hover:bg-green-500 hover:text-white transition duration-300'
+          : 'border border-slate-400 p-2 rounded-lg hover:bg-slate-500 hover:text-white transition duration-300'
+         }
+         disabled={loading}
+        onClick={handleUpload}
+        >
+        {loading ? "Sharing... ": "Share"}
+        </button>
       </div>
 
       <input type="file" accept="image/*" className="hidden" id="fileInput" ref={imgRef} onChange={imgChange} />
       {image != null && (
         <div className='relative mt-4 w-52 bg-red-300 p-4'>
           <FontAwesomeIcon icon={faTimes} onClick={() => setImage(null)} className='absolute top-0 right-0 cursor-pointer text-red-500' />
-          <img src={image} className='w-full h-auto rounded-lg' />
+          <img src={URL.createObjectURL(image)} className='w-full h-auto rounded-lg' />
         </div>
       )}
     </div>

@@ -1,11 +1,9 @@
 import React from 'react';
-import { createBrowserRouter, RouterProvider, Outlet } from 'react-router-dom';
-
-import router from './routes/route';
-
-
+import { RouterProvider } from 'react-router-dom';
+import useAuthRouter from './routes/Routing';
 
 function App() {
+  const router = useAuthRouter(); // Get the dynamic router
   return <RouterProvider router={router} />;
 }
 
