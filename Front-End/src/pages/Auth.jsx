@@ -44,6 +44,8 @@ function Auth() {
 }
 
 function SignUP({ setisSignUp, handleChange, isConfirm, data,setisConfirm }) {
+  const {error}=useSelector((state)=> state.AuthReducer)
+  console.log(error)
   const dispatch=useDispatch();
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -109,6 +111,9 @@ function SignUP({ setisSignUp, handleChange, isConfirm, data,setisConfirm }) {
           <span className={isConfirm ? "hidden" : "text-red-700"}>
             ** Confirm Password did not match. **
           </span>
+          <span className={error? "text-red-700": "hidden"}>
+            Username Already exists. Please try another username!
+          </span>
           <div
             className="my-2 cursor-pointer"
             onClick={() => setisSignUp(true)}
@@ -130,7 +135,7 @@ function SignUP({ setisSignUp, handleChange, isConfirm, data,setisConfirm }) {
 function LogIN({ setisSignUp, handleChange,data }) {
   
   const dispatch=useDispatch();
- const handleSubmit=(e)=>{
+  const handleSubmit=(e)=>{
   e.preventDefault();
   console.log(data)
   dispatch(logIn(data));

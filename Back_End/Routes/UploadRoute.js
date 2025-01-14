@@ -14,8 +14,12 @@ const storage = multer.diskStorage({
         // Generate a filename using the name passed in the body (if provided) or create one with a timestamp
         const timestamp = Date.now();
         const fileExtension = path.extname(file.originalname);  // Get file extension
-        const fileName = req.body.name ? req.body.name : `${timestamp}-${file.originalname}`;
+
+       // console.log(req.body)
+        const fileName = req.body.fileName ? req.body.fileName : `${timestamp}-${file.originalname}`;
+        //console.log(fileName)
         cb(null, fileName);  // Use this new filename for the uploaded file
+        
     }
 });
 

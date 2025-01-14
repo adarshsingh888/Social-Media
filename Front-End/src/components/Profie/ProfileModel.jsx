@@ -1,75 +1,202 @@
-import { useDisclosure } from '@mantine/hooks';
-import { Modal, Button } from '@mantine/core';
+import { Modal, useMantineTheme } from '@mantine/core';
+import { useSelector ,useDispatch} from 'react-redux';
+import { useState } from 'react';
+import { updateUser } from '../../actions/UserAction.js';
+import {uploadImage} from '../../actions/uploadAction.js'
 
-function ProfileModel({modelOpened,setModelOpened}) {
-   
+function ProfileModel({modelOpened,setModelOpened,data}) {
+   console.log(data)
+   const theme=useMantineTheme();
 
   return (
     <>
       <Modal 
-      opened={modelOpened} 
-      onClose={()=> setModelOpened(false)} 
-      title="Edit Profile Info" 
-      centered>
-        <Form/>
+        opened={modelOpened} 
+        onClose={()=> setModelOpened(false)} 
+        title="Edit Profile Info" 
+        centered
+        className=''>
+        <Form setModelOpened={setModelOpened} id={data}/>
       </Modal>
 
     
     </>
   );
 }
-function Form() {
-    return (
-      <div className="  flex items-center justify-center">
-        <div className="bg-white shadow-lg rounded-lg p-8 w-full max-w-md">
 
-          <form>
-            <div className="flex gap-4 mb-4">
+function Form({setModelOpened}) {
+  const {user}=useSelector((state)=> state.AuthReducer.authData)
+  const {password,...other}=user
+  const [profileImage, setProfileImage] = useState(null);
+  const [coverImage, setCoverImage] = useState(null);
+  const dispatch = useDispatch();
+  // console.log(other)
+  const [formData, setFormData] = useState(other); 
+
+  const handleSubmit = (e) => {
+    let UserData=formData;
+    e.preventDefault();
+    if(profileImage ){
+      const data = new FormData();
+      console.log(data)
+      const fileName = Date.now() + profileImage.name;
+      console.log(fileName)
+      data.append("fileName", fileName);
+      data.append("file", profileImage);
+      UserData.profilePicture = fileName;
+      try {
+        dispatch(uploadImage(data));
+      } catch (err) {
+        console.log(err);
+      }
+    }
+    if(coverImage ){
+      const data = new FormData();
+      console.log(data)
+      const fileName = Date.now() + coverImage.name;
+      data.append("fileName", fileName);
+      data.append("file", coverImage);
+      UserData.coverPicture = fileName;
+      try {
+        dispatch(uploadImage(data));
+      } catch (err) {
+        console.log(err);
+      }
+    }
+    setModelOpened(false)
+    console.log("id",user._id ,"   Userdata::" ,UserData)
+  dispatch(  updateUser(user._id,UserData));
+  
+
+  };
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+    
+   // console.log(e.target.name)
+      };
+  const onImageChange = (event) => {
+    if (event.target.files && event.target.files[0]) {
+    //  console.log(event.target.files)
+      let img = event.target.files[0];
+      event.target.name === "profileImage"
+        ? setProfileImage(img)
+        : setCoverImage(img);
+    }
+  };
+
+  return (
+    <div className=" flex items-center justify-center bg-gray-100">
+      <div className="bg-white shadow-lg rounded-lg p-8 w-full max-w-md">
+        <form
+          className="infoForm space-y-6"
+          onSubmit={handleSubmit}
+        >
+          <h3 className="text-2xl font-semibold text-gray-800 mb-4 text-center">
+            Your Info
+          </h3>
+
+          {/* Name Inputs */}
+          <div className="grid grid-cols-2 gap-4">
+            <input
+              value={formData.firstname}
+              onChange={handleChange}
+              type="text"
+              placeholder="First Name"
+              name="firstname"
+              className="infoInput border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+            />
+            <input
+              value={formData.lastname}
+              onChange={handleChange}
+              type="text"
+              placeholder="Last Name"
+              name="lastname"
+              className="infoInput border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+            />
+          </div>
+
+          {/* Work Input */}
+          <div>
+            <input
+              value={formData.worksAt}
+              onChange={handleChange}
+              type="text"
+              placeholder="Works at"
+              name="worksAt"
+              className="infoInput w-full border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+            />
+          </div>
+
+          {/* Address Inputs */}
+          <div className="grid grid-cols-2 gap-4">
+            <input
+              value={formData.livesIn}
+              onChange={handleChange}
+              type="text"
+              placeholder="Lives in"
+              name="livesIn"
+              className="infoInput border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+            />
+            <input
+              value={formData.country}
+              onChange={handleChange}
+              type="text"
+              placeholder="Country"
+              name="country"
+              className="infoInput border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+            />
+          </div>
+
+          {/* Relationship Status */}
+          <div>
+            <input
+              value={formData.relationship}
+              onChange={handleChange}
+              type="text"
+              placeholder="Relationship status"
+              name="relationship"
+              className="infoInput w-full border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+            />
+          </div>
+
+          {/* File Inputs */}
+          <div className="space-y-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-700">
+                Profile Image
+              </label>
               <input
-                type="text"
-                name="firstname"
-                placeholder="First Name"
-                className=" w-1/2 px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-400"
-              />
-              <input
-                type="text"
-                name="lastname"
-                placeholder="Last Name"
-                className=" w-1/2 px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-400"
+                type="file"
+                name="profileImage"
+                onChange={onImageChange}
+                className="mt-1 block w-full text-sm text-gray-600 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
               />
             </div>
-            <div className="mb-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-700">
+                Cover Image
+              </label>
               <input
-                type="text"
-                name="username"
-                placeholder="Username"
-                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-400"
+                type="file"
+                name="coverImage"
+                onChange={onImageChange}
+                className="mt-1 block w-full text-sm text-gray-600 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
               />
             </div>
-            <div className="flex gap-4 mb-4">
-              <input
-                type="password"
-                name="password"
-                placeholder="Password"
-                className="w-1/2 px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-400"
-              />
-              <input
-                type="password"
-                name="confirmpassword"
-                placeholder="Confirm Password"
-                className="w-1/2 px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-400"
-              />
-            </div>
-           
-            <button
-              type="submit"
-              className="w-full bg-orange-500 text-white font-bold py-2 px-4 rounded-md hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-orange-400 focus:ring-offset-2"
-            >
-              Submite
-            </button>
-          </form>
-        </div>
+          </div>
+
+          {/* Submit Button */}
+          <button
+            className="w-full py-2 bg-blue-500 text-white font-semibold rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+            type="submit"
+          >
+            Update
+          </button>
+        </form>
       </div>
-    );
-  }
+    </div>
+  );
+}
+
+
 export default ProfileModel; 

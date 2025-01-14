@@ -1,19 +1,25 @@
-import React from 'react'
+import React,{useEffect} from 'react'
 import Post from './Post';
+import { getTimelinePosts } from '../../actions/PostAction';
 import { PostData } from '../../../public/assets/PostData'
-import { useReducer,useSelector } from 'react-redux';
+import { useReducer,useSelector,useDispatch } from 'react-redux';
 function PostBody() {
-  console.log("this is post  component")
-   const {posts}=useSelector((state)=>state.postReducer);
+  const dispatch=useDispatch();
+  //console.log("this is post  component")
+  const {posts}=useSelector((state)=>state.postReducer);
   const {user}=useSelector((state)=>state.AuthReducer.authData);
-  console.log(posts)
+ // console.log(posts)
 
-
+   useEffect(()=>{
+          console.log("form useEffect")
+          dispatch(getTimelinePosts(user._id));
+      },[]);
+  
   return (
     <div>
          {posts.map((postData, id) => {
             return (
-             <Post id={id} postData={postData}/>
+             <Post key={id} postData={postData}/>
             );
          })}
 

@@ -1,21 +1,21 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+// import React from 'react'
+// import { Link } from 'react-router-dom'
 
-function Login() {
-  return (
-    <div>
-         <form>
-             <input placeholder='username'></input>
-             <button>Login</button>
+// function Login() {
+//   return (
+//     <div>
+//          <form>
+//              <input placeholder='username'></input>
+//              <button>Login</button>
              
 
-         </form>
-          <Link to="/register"> New user </Link>
+//          </form>
+//           <Link to="/register"> New user </Link>
 
 
 
-    </div>
-  )
-}
+//     </div>
+//   )
+// }
 
-export default Login
+// export default Login

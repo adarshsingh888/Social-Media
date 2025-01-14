@@ -7,10 +7,10 @@ import Follower from './Follower';
 
 function ProfileSide() {
   return (
-    <div className=' h-screen '>
-      <LogoSearch/>
-      <ProfileCard/>
-      <Follower/>
+    <div className=' h-screen w-full flex flex-col '>
+      {/* <LogoSearch /> */}
+      <ProfileCard />
+      <Follower />
     </div>
   );
 }

@@ -57,9 +57,12 @@ export const createPost = async (req, res) => {
 //like /dislike  
   export const likePost = async (req, res) => {
     const id = req.params.id;
+    //console.log(id)
+   // console.log(req.body)
     const { userId } = req.body;
     try {
       const post = await PostModel.findById(id);
+      //console.log(post)
       if (post.likes.includes(userId)) {
         await post.updateOne({ $pull: { likes: userId } });
         res.status(200).json("Post disliked");
@@ -76,8 +79,8 @@ export const createPost = async (req, res) => {
 export const getTimelinePosts = async (req, res) => {
   const userId = req.params.id
   try {
-    const currentUserPosts = await PostModel.find({ userId: userId });
-
+    const currentUserPosts = await PostModel.find();
+    //console.log(currentUserPosts)
     const followingPosts = await UserModel.aggregate([
       { 
         $match: {

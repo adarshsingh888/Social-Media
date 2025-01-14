@@ -1,5 +1,6 @@
 import UserModel from "../model/userModel.js";
 import  bcrypt  from "bcrypt";
+import  jwt  from "jsonwebtoken";
 
 export const getUser=async(req,res)=>{
     const id=req.params.id;
@@ -24,9 +25,9 @@ export const updateUser = async (req, res) => {
     const id = req.params.id;
     console.log("Usser",id)
      console.log("Data Received", req.body)
-    const { currentuserID, currentUserAdmin, password } = req.body;
-    
-    if (id === currentuserID || currentUserAdmin) {
+    const { _id, currentUserAdmin, password } = req.body;
+    console.log(_id)
+    if (id === _id || currentUserAdmin) {
       try {
         // if we also have to update password then password will be bcrypted again
         if (password) {
@@ -37,15 +38,16 @@ export const updateUser = async (req, res) => {
         const user = await UserModel.findByIdAndUpdate(id, req.body, {
           new: true,
         });
-        // const token = jwt.sign(
-        //   { username: user.username, id: user._id },
-        //   process.env.JWTKEY,
-        //   { expiresIn: "1h" }
-        // );
-        // console.log({user, token})
-        res.status(200).json(user);
+        const token = jwt.sign(
+          { username: user.username, id: user._id },
+          process.env.JWT_KEY,
+          { expiresIn: "1h" }
+        );
+        console.log({user, token})
+        res.status(200).json({user,token});
       } catch (error) {
-        console.log("Error agya hy")
+        console.error("Error during user update:", error);
+    
         res.status(500).json(error);
       }
      
@@ -78,7 +80,7 @@ export const deleteUser = async (req, res) => {
 export const followUser = async (req, res) => {
     const id = req.params.id;
     const { _id } = req.body;
-    console.log(id, _id)
+    
     if (_id == id) {
       res.status(403).json("Action Forbidden");
     } else {
@@ -101,6 +103,7 @@ export const followUser = async (req, res) => {
   };  
 
   export const unfollowUser = async (req, res) => {
+    //console.log("Unfollow User",req.body)
     const id = req.params.id;
     const { _id } = req.body;
   
@@ -126,6 +129,24 @@ export const followUser = async (req, res) => {
       } catch (error) {
         res.status(500).json(error)
       }
+    }
+  };
+
+  export const getAllUser = async (req, res) => {
+    try {
+      let users = await UserModel.find(); // Fetch all users from the database
+  
+      // Transform users by removing the password field
+      users = users.map((user) => {
+        const { password, ...other } = user.toObject(); // Convert Mongoose document to plain object
+        return other;
+      });
+  
+      
+      res.status(200).json(users); // Send the modified users list as the response
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: "An error occurred while fetching users" });
     }
   };
   

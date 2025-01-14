@@ -1,27 +1,41 @@
-import React from 'react';
-import { Followers } from '../../../public/assets/Followers';
-
+import React, { useEffect, useState } from 'react';
+import User from './User';
+import { getAllUser } from '../../api/UserRequest.js';
+import { useSelector } from 'react-redux';
 function Follower() {
+  const [person, setPerson] = useState([]);
+  const { user } = useSelector((state) => state.AuthReducer.authData)
+  console.log(user)
+  useEffect(() => {
+    const fetch = async () => {
+      const { data } = await getAllUser();
+      console.log(data)
+      setPerson(data)
+      console.log(person)
+    }
+    fetch();
+  }, [])
+
+
   return (
-    
-      <div className='flex flex-col items-center bg-white w-full rounded-3xl pb-2'>
-        <h2 className='font-bold text-2xl m-2'>Who is following you</h2>
-        <div className='flex flex-col w-full'>
-          {Followers.map((follower, id) => (
-            <div key={id} className='m-2 mx-4  flex bg-orange-200 justify-between items-center px-4 rounded-lg shadow-sm'>
-              <div className='flex items-center py-2'>
-                <img src={follower.img} alt="" className='w-14 h-14 rounded-full' />
-                <div className='mx-2 flex flex-col'>
-                  <p className='font-bold'>{follower.name}</p>
-                  <p className='text-gray-600'>{follower.username}</p>
-                </div>
-              </div>
-              <button className='bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600'>Follow</button>
-            </div>
-          ))}
-        </div>
+
+
+    <div className="  bg-white w-full  rounded-3xl pb-2 flex flex-col flex-grow items-center overflow-hidden">
+      <h2 className="font-bold text-2xl m-2">
+        People you might know.
+      </h2>
+      <div className="flex flex-col w-full flex-grow overflow-y-auto hide-scrollbar">
+        {person.map((person, id) =>
+          person._id !== user._id ? <User key={id} person={person} /> : null
+        )}
       </div>
-    
+      {/* <div className="mt-2 p-2 rounded-md cursor-pointer text-blue-600 hover:bg-black hover:text-white">
+        Show all
+      </div> */}
+    </div>
+
+
+
   );
 }
 
