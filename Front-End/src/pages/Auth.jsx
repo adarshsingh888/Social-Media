@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import logo from "../../public/assets/img/logo.png";
-import { useDispatch,useSelector } from 'react-redux';
-import { signUp,logIn } from "../actions/AuthAction";
+import { useDispatch, useSelector } from 'react-redux';
+import { signUp, logIn } from "../actions/AuthAction";
 
 function Auth() {
   const [isSignUp, setisSignUp] = useState(true);
-  const [isConfirm,setisConfirm]=useState(true);
+  const [isConfirm, setisConfirm] = useState(true);
   const [data, setData] = useState({
     username: "",
     firstname: "",
@@ -19,9 +19,9 @@ function Auth() {
       [name]: value,
     }));
   };
-  
-  
-  
+
+
+
 
   return (
     <div className="flex justify-center items-center h-screen">
@@ -36,21 +36,21 @@ function Auth() {
         {isSignUp ? (
           <LogIN setisSignUp={setisSignUp} handleChange={handleChange} data={data} />
         ) : (
-          <SignUP setisSignUp={setisSignUp} handleChange={handleChange}isConfirm={isConfirm} data={data} setisConfirm={setisConfirm}/>
+          <SignUP setisSignUp={setisSignUp} handleChange={handleChange} isConfirm={isConfirm} data={data} setisConfirm={setisConfirm} />
         )}
       </div>
     </div>
   );
 }
 
-function SignUP({ setisSignUp, handleChange, isConfirm, data,setisConfirm }) {
-  const {error}=useSelector((state)=> state.AuthReducer)
+function SignUP({ setisSignUp, handleChange, isConfirm, data, setisConfirm }) {
+  const { error } = useSelector((state) => state.AuthReducer)
   console.log(error)
-  const dispatch=useDispatch();
+  const dispatch = useDispatch();
   const handleSubmit = (e) => {
     e.preventDefault();
     if (data.password !== data.confirmpassword) {
-     
+
       setisConfirm(false);
     } else {
       dispatch(signUp(data));
@@ -74,6 +74,7 @@ function SignUP({ setisSignUp, handleChange, isConfirm, data,setisConfirm }) {
               placeholder="First Name"
               onChange={handleChange}
               className="w-1/2 px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-400"
+              required
             />
             <input
               type="text"
@@ -81,6 +82,7 @@ function SignUP({ setisSignUp, handleChange, isConfirm, data,setisConfirm }) {
               placeholder="Last Name"
               onChange={handleChange}
               className="w-1/2 px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-400"
+              required
             />
           </div>
           <div className="mb-4">
@@ -90,6 +92,7 @@ function SignUP({ setisSignUp, handleChange, isConfirm, data,setisConfirm }) {
               placeholder="Username"
               onChange={handleChange}
               className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-400"
+              required
             />
           </div>
           <div className="flex gap-4 mb-4">
@@ -99,6 +102,7 @@ function SignUP({ setisSignUp, handleChange, isConfirm, data,setisConfirm }) {
               placeholder="Password"
               onChange={handleChange}
               className="w-1/2 px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-400"
+              required
             />
             <input
               type="password"
@@ -106,12 +110,13 @@ function SignUP({ setisSignUp, handleChange, isConfirm, data,setisConfirm }) {
               placeholder="Confirm Password"
               onChange={handleChange} // Ensure `handleChange` updates `data.confirmpassword`
               className="w-1/2 px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-400"
+              required
             />
           </div>
           <span className={isConfirm ? "hidden" : "text-red-700"}>
             ** Confirm Password did not match. **
           </span>
-          <span className={error? "text-red-700": "hidden"}>
+          <span className={error ? "text-red-700" : "hidden"}>
             Username Already exists. Please try another username!
           </span>
           <div
@@ -132,33 +137,36 @@ function SignUP({ setisSignUp, handleChange, isConfirm, data,setisConfirm }) {
   );
 }
 
-function LogIN({ setisSignUp, handleChange,data }) {
-  
-  const dispatch=useDispatch();
-  const handleSubmit=(e)=>{
-  e.preventDefault();
-  console.log(data)
-  dispatch(logIn(data));
-  console.log("clicked")
- }
- const loading=useSelector((state)=> state.AuthReducer.loading)
- console.log(loading)
+function LogIN({ setisSignUp, handleChange, data }) {
+
+  const dispatch = useDispatch();
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log(data)
+    dispatch(logIn(data));
+    console.log("clicked")
+  }
+  const loading = useSelector((state) => state.AuthReducer.loading)
+  console.log(loading)
   return (
     <div className="min-h-screen flex items-center justify-center max-w-md">
-      <form>
+      <form onSubmit={handleSubmit}>
         <input
           type="text"
           name="username"
           placeholder="Username"
           onChange={handleChange}
           className="w-full px-4 my-2 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-400"
+          required
         />
         <input
+
           type="password"
           name="password"
           placeholder="Password"
           onChange={handleChange}
           className="w-full px-4 my-2 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-400"
+          required
         />
         <span
           className="my-4 cursor-pointer"
@@ -168,16 +176,15 @@ function LogIN({ setisSignUp, handleChange,data }) {
         </span>
         <button
           type="submit"
-          onClick={handleSubmit}
+
           disabled={loading}
-          className={`w-full my-4 text-white font-bold py-2 px-4 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 ${
-            loading 
-              ? "bg-slate-300 hover:bg-slate-600 focus:ring-slate-400"
-              : "bg-orange-500 hover:bg-orange-600 focus:ring-orange-400"
-          }`}
-          
+          className={`w-full my-4 text-white font-bold py-2 px-4 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 ${loading
+            ? "bg-slate-300 hover:bg-slate-600 focus:ring-slate-400"
+            : "bg-orange-500 hover:bg-orange-600 focus:ring-orange-400"
+            }`}
+
         >
-          {loading ? "Loading...":"LogIn"}
+          {loading ? "Loading..." : "LogIn"}
         </button>
       </form>
     </div>

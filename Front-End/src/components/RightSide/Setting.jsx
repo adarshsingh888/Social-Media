@@ -1,10 +1,13 @@
 import React from 'react'
 import { useDispatch,useSelector } from 'react-redux'
+import { deleteUser } from '../../api/UserRequest.js';
 function Setting() {
   const dispatch=useDispatch();
   const {user}=useSelector((state)=> state.AuthReducer.authData);
-
-  const handleDelete=()=>{
+  console.log(user)
+  const handleDelete= async()=>{
+    const ress= await deleteUser(user._id,user)
+    console.log(ress)
     dispatch({type:"LOG_OUT"});
   }
   const handelLogOut=()=>{

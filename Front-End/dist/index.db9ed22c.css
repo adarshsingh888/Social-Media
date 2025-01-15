@@ -267,10 +267,6 @@ img, video {
   top: 0;
 }
 
-.top-12 {
-  top: 3rem;
-}
-
 .col-span-2 {
   grid-column: span 2 / span 2;
 }
@@ -349,10 +345,6 @@ img, video {
   margin-top: .25rem;
 }
 
-.mt-16 {
-  margin-top: 4rem;
-}
-
 .mt-2 {
   margin-top: .5rem;
 }
@@ -425,10 +417,6 @@ img, video {
   width: 3.5rem;
 }
 
-.w-24 {
-  width: 6rem;
-}
-
 .w-28 {
   width: 7rem;
 }
@@ -437,20 +425,12 @@ img, video {
   width: 8rem;
 }
 
-.w-4 {
-  width: 1rem;
-}
-
 .w-52 {
   width: 13rem;
 }
 
 .w-full {
   width: 100%;
-}
-
-.max-w-2xl {
-  max-width: 42rem;
 }
 
 .max-w-4xl {
@@ -604,10 +584,6 @@ img, video {
   border-top-width: 1px;
 }
 
-.border-t-2 {
-  border-top-width: 2px;
-}
-
 .border-black {
   --tw-border-opacity: 1;
   border-color: rgb(0 0 0 / var(--tw-border-opacity, 1));
@@ -693,18 +669,9 @@ img, video {
   background-color: rgb(255 255 255 / var(--tw-bg-opacity, 1));
 }
 
-.bg-yellow-200 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(254 240 138 / var(--tw-bg-opacity, 1));
-}
-
 .bg-yellow-300 {
   --tw-bg-opacity: 1;
   background-color: rgb(253 224 71 / var(--tw-bg-opacity, 1));
-}
-
-.fill-current {
-  fill: currentColor;
 }
 
 .object-cover {
@@ -818,11 +785,6 @@ img, video {
 .text-blue-600 {
   --tw-text-opacity: 1;
   color: rgb(37 99 235 / var(--tw-text-opacity, 1));
-}
-
-.text-blue-900 {
-  --tw-text-opacity: 1;
-  color: rgb(30 58 138 / var(--tw-text-opacity, 1));
 }
 
 .text-gray-500 {
@@ -1096,10 +1058,6 @@ img, video {
 }
 
 @media (width >= 640px) {
-  .sm\:top-16 {
-    top: 4rem;
-  }
-
   .sm\:mx-4 {
     margin-left: 1rem;
     margin-right: 1rem;
@@ -1110,35 +1068,17 @@ img, video {
     margin-right: auto;
   }
 
-  .sm\:mt-24 {
-    margin-top: 6rem;
-  }
-
   .sm\:h-12 {
     height: 3rem;
-  }
-
-  .sm\:w-32 {
-    width: 8rem;
   }
 
   .sm\:max-w-sm {
     max-width: 24rem;
   }
 
-  .sm\:text-base {
-    font-size: 1rem;
-    line-height: 1.5rem;
-  }
-
   .sm\:text-sm {
     font-size: .875rem;
     line-height: 1.25rem;
-  }
-
-  .sm\:text-xl {
-    font-size: 1.25rem;
-    line-height: 1.75rem;
   }
 }
 
@@ -1146,10 +1086,6 @@ img, video {
   .md\:mx-auto {
     margin-left: auto;
     margin-right: auto;
-  }
-
-  .md\:w-48 {
-    width: 12rem;
   }
 
   .md\:max-w-sm {
@@ -1176,10 +1112,6 @@ img, video {
 
   .xl\:max-w-lg {
     max-width: 32rem;
-  }
-
-  .xl\:max-w-sm {
-    max-width: 24rem;
   }
 }
 /*# sourceMappingURL=index.db9ed22c.css.map */

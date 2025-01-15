@@ -1,7 +1,7 @@
 import UserModel from "../model/userModel.js";
 import  bcrypt  from "bcrypt";
 import  jwt  from "jsonwebtoken";
-
+import PostModel from '../model/postModel.js'
 export const getUser=async(req,res)=>{
     const id=req.params.id;
 
@@ -59,22 +59,36 @@ export const updateUser = async (req, res) => {
   };
 
 
-export const deleteUser = async (req, res) => {
+  export const deleteUser = async (req, res) => {
     const id = req.params.id;
+    console.log("User ID from params:", id);
   
-    const { currentuserID, currentUserAdmin } = req.body;
+    const { _id } = req.body; // Make sure req.body exists
+    console.log("User ID from body:", _id);
   
-    if (currentuserID == id || currentUserAdmin) {
+    if (_id == id) {
       try {
-        await UserModel.findByIdAndDelete(id);
-        res.status(200).json("User Deleted Successfully!");
+        console.log("In try block...");
+        const userDeleted = await UserModel.findByIdAndDelete(id);
+        if (!userDeleted) {
+          return res.status(404).json("User not found!");
+        }
+        console.log("User deleted:", userDeleted);
+  
+        // Ensure userId matches the type in PostModel
+        const postsDeleted = await PostModel.deleteMany({ userId: String(id) });
+        console.log(`Deleted ${postsDeleted.deletedCount} posts`);
+  
+        res.status(200).json("User and associated posts deleted successfully!");
       } catch (error) {
-        res.status(500).json(err);
+        console.error("Error in deleteUser:", error);
+        res.status(500).json({ error: error.message });
       }
     } else {
       res.status(403).json("Access Denied!");
     }
   };
+  
 
 
 export const followUser = async (req, res) => {
