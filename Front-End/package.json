@@ -9,7 +9,7 @@
   "author": "",
   "license": "ISC",
   "description": "",
-  "proxy": "http://localhost:5000",
+  "proxy": "https://social-media-backend-603c.onrender.com",
   "devDependencies": {
     "assert": "^2.1.0",
     "buffer": "^6.0.3",
