@@ -1,5 +1,4 @@
 import React from 'react'
-import profileImg from '../../../public/assets/img/profileImg.jpg'
 import cover from '../../../public/assets/img/cover.jpg'
 import { useSelector } from 'react-redux'
 import { Link, useParams } from 'react-router-dom'

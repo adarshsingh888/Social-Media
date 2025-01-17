@@ -1,7 +1,6 @@
 import React,{useEffect} from 'react'
 import Post from './Post';
 import { getTimelinePosts } from '../../actions/PostAction';
-import { PostData } from '../../../public/assets/PostData'
 import { useReducer,useSelector,useDispatch } from 'react-redux';
 function PostBody() {
   const dispatch=useDispatch();

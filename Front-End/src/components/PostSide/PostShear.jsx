@@ -1,5 +1,4 @@
 import React, { useRef, useState } from 'react';
-import profileImg from '../../../public/assets/img/profileImg.jpg';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faImage, faVideo, faMapMarkerAlt, faCalendarAlt, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { useSelector, useDispatch } from 'react-redux';
