@@ -39,7 +39,7 @@ function Form({setModelOpened}) {
     if(profileImage ){
       const data = new FormData();
       console.log(data)
-      const fileName = Date.now() + profileImage.name;
+      const fileName = Date.now() + process.env.IMG_CODE;
       console.log(fileName)
       data.append("fileName", fileName);
       data.append("file", profileImage);
@@ -53,7 +53,7 @@ function Form({setModelOpened}) {
     if(coverImage ){
       const data = new FormData();
       console.log(data)
-      const fileName = Date.now() + coverImage.name;
+      const fileName = Date.now() + process.env.IMG_CODE;
       data.append("fileName", fileName);
       data.append("file", coverImage);
       UserData.coverPicture = fileName;

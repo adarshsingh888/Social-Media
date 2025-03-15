@@ -329,10 +329,6 @@ img, video {
   margin-bottom: 1.5rem;
 }
 
-.ml-4 {
-  margin-left: 1rem;
-}
-
 .mr-2 {
   margin-right: .5rem;
 }
@@ -519,10 +515,6 @@ img, video {
 
 .overflow-y-scroll {
   overflow-y: scroll;
-}
-
-.rounded {
-  border-radius: .25rem;
 }
 
 .rounded-2xl {

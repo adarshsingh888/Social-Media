@@ -6,11 +6,11 @@ import { likedPost } from '../../api/PostRequest';
 import { likePost } from '../../actions/PostAction';
 
 function Post({ postData }) {
-    const { desc, userId, image, _id } = postData;
+    const { desc, userId, image, _id ,likes} = postData;
     const { user } = useSelector((state) => state.AuthReducer.authData);
     // console.log(postData.likes.includes(user._id))
-    const [liked, setLiked] = useState(postData.likes.includes(user._id));
-    const [countlikes, setcountLikes] = useState(postData.likes.length);
+    const [liked, setLiked] = useState(likes && likes.includes(user._id));
+    const [countlikes, setcountLikes] = useState(likes&&likes.length);
     // console.log(postData)
     const dispatch = useDispatch();
     const handlePostLiked = async () => {
@@ -20,11 +20,10 @@ function Post({ postData }) {
         setcountLikes((prev) => (liked ? prev - 1 : prev + 1));
         likedPost(postData._id, user._id);
     };
-    console.log(process.env.REACT_APP_PUBLIC_FOLDER + image)
     return (
         <div className="m-4 p-4 bg-white rounded-lg">
             <img
-                src={image ? `${process.env.REACT_APP_PUBLIC_FOLDER}${image}` : ""}
+                src={image ? `${process.env.CLOUD_URL}${image}` : ""}
                 alt="Post"
                 className="w-full rounded"
             />

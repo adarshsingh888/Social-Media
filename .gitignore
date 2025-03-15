@@ -1,2 +1,7 @@
 node_modules/
 .parcel-cache/
+Back_End/node_modules/
+Front-End/node_modules
+Front-End/.env
+Front-End/package-lock.json
+

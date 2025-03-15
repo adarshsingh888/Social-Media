@@ -6,20 +6,21 @@ import defaultProfile from '../../../public/assets/img/defaultProfile.png'
 function ProfileCard() {
   const {id}=useParams();
   const { user } = useSelector((state) => state.AuthReducer.authData)
+
   return (
 
     <div className='max-w-4xl sm:max-w-sm md:max-w-sm lg:max-w-sm xl:max-w-lg sm:mx-auto md:mx-auto lg:mx-auto xl:mx-auto m-4 bg-white shadow-xl rounded-lg text-gray-900'>
       <div className='rounded-t-lg h-32 overflow-hidden'>
         <img
           className='object-cover object-top w-full'
-          src={user.coverPicture ? process.env.REACT_APP_PUBLIC_FOLDER + user.coverPicture : cover}
+          src={user.coverPicture ? process.env.CLOUD_URL + user.coverPicture : cover}
           alt='Cover'
         />
       </div>
       <div className='mx-auto w-32 h-32 relative -mt-16 border-4 border-white rounded-full overflow-hidden'>
         <img
           className='object-cover object-center h-32'
-          src={user.profilePicture ? process.env.REACT_APP_PUBLIC_FOLDER + user.profilePicture : defaultProfile}
+          src={user.profilePicture ? process.env.CLOUD_URL + user.profilePicture : defaultProfile}
           alt='Profile'
         />
       </div>

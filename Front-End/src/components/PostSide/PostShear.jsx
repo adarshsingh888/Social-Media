@@ -19,7 +19,7 @@ function PostShare() {
   // const videoClicked = () => {
   //   imgRef.current.click();
   // };
-
+  console.log(process.env.IMG_CODE)
   const imgChange = (e) => {
     const img = e.target.files[0];
     setImage(img);
@@ -30,11 +30,11 @@ function PostShare() {
       userId: user._id,
       desc: desc,
     };
-
+    
     if (image) {
       console.log(image.name)
       const data = new FormData();
-      const fileName = Date.now() + image.name;
+      const fileName = Date.now() + process.env.IMG_CODE;
       data.append("fileName", fileName);
       data.append("file", image);
       console.log(fileName)
@@ -59,7 +59,7 @@ function PostShare() {
   return (
     <div className='flex flex-col bg-white m-4 rounded-lg shadow-lg'>
       <div className='flex flex-wrap p-4 justify-center items-center border-b'>
-        <img src={user.profilePicture ? process.env.REACT_APP_PUBLIC_FOLDER + user.profilePicture : defaultProfile} alt="" className='w-10 h-10 rounded-full mr-4' />
+        <img src={user.profilePicture ? process.env.CLOUD_URL + user.profilePicture+".png" : defaultProfile} alt="" className='w-10 h-10 rounded-full mr-4' />
         <input
           type="text"
           name='des'
