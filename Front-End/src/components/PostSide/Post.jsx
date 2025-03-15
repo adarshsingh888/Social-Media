@@ -30,11 +30,11 @@ function Post({ postData }) {
             <div className="flex py-4">
                 <FontAwesomeIcon
                     icon={faHeart}
-                    className={liked ? "text-red-500 cursor-pointer" : "text-black cursor-pointer"}
+                    className={liked ? "text-red-500 cursor-pointer mx-3" : "text-black cursor-pointer"}
                     onClick={handlePostLiked} // Use the renamed function
                 />
-                <FontAwesomeIcon icon={faComment} className="ml-4 text-black" />
-                <FontAwesomeIcon icon={faPaperPlane} className="ml-4 text-black" />
+                <FontAwesomeIcon icon={faComment} className="ml-4 text-black mx-2" />
+                <FontAwesomeIcon icon={faPaperPlane} className="ml-4 text-black mx-1" />
             </div>
             <span>{countlikes} likes</span>
             <div>
